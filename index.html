@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>政府開放資料 - 展覽資訊</title>
+    <!-- favicon -->
+    <link rel="shortcut icon" href="./icon/favicon.ico" type="image/x-icon">
+    <!-- 網站meta  -->
+    <meta name="keywords" content="展覽資訊,文化部,政府開放資料">
+    <meta name="description" content="台灣展覽資訊">
+    <meta name="author" content="泰山網頁設計班">
+    <!-- facebook meta -->
+    <meta property="og:title" content="政府開放資料 - 展覽資訊">
+    <meta property="og:image" content="./img/Geography_03.jpg">
+    <meta property="og:description" content="台灣展覽資訊">
+    <meta property="og:site_name" content="政府開放資料 - 展覽資訊">
+    <link rel="stylesheet" href="./css/main.css">
+    <!-- 先jquery -->
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="./js/wow.min.js"></script>
+    <!-- PWD -->
+    <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+    <div id="bg"></div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-nav fixed-top shadow flipInX wow" id="nav">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="./icon/folder64.png" width="30" height="30" class="d-inline-block align-top" alt="東山咖啡">
+                政府開放資料 - 展覽資訊
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="./index.html">
+                            <i class="fas fa-home"></i> 首頁
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./land.html">
+                            <i class="fas fa-tree"></i> 景點介紹
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./shop.html">
+                            <i class="fas fa-gift"></i> 商品介紹
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-nav" id="content">
+        
+    </div>
+    <div class="container-fluid bg-footer mt-4" id="footer">
+        <div class="row">
+            <div class="col-12 text-center text-white">
+                <ul class="nav justify-content-center">
+                    <li class="nav-item">
+                        資料來自於文化部所提供的展覽資訊開放資料。
+                    </li>
+                    <li class="nav-item">
+                        &copy;2019泰山網頁設計班 Taylor
+                    </li>
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" id="loading">
+        <div class="row h-100">
+            <div class="col-12 text-center align-self-center"><img src="./svg/hud.svg" alt="" height="300" width="300">
+            <p class="text-white">載入中</p>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    
+    $(document).on("readystatechange",function(){
+        if(document.readyState == "complete"){
+            $("#loading").fadeOut(2000,function(){
+                $("#nav").fadeIn();
+                $("#content").fadeIn();
+                $("#footer").fadeIn();
+                new WOW().init();
+            }
+            )
+        }
+    })
+</script>
+
+</html>
