@@ -14,7 +14,7 @@
     <meta name="author" content="泰山網頁設計班">
     <!-- facebook meta -->
     <meta property="og:title" content="政府開放資料 - 展覽資訊">
-    <meta property="og:image" content="./img/Geography_03.jpg">
+    <meta property="og:image" content="./icon/folder512.png">
     <meta property="og:description" content="台灣展覽資訊">
     <meta property="og:site_name" content="政府開放資料 - 展覽資訊">
     <link rel="stylesheet" href="./css/main.css">
@@ -22,12 +22,84 @@
     <script src="./js/jquery-3.4.1.min.js"></script>
     <script src="./js/bootstrap.bundle.min.js"></script>
     <script src="./js/wow.min.js"></script>
+    <script src="./js/css-doodle.min.js"></script>
+    <script src="./js/particles.min.js"></script>
     <!-- PWD -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="./manifest.json">
 </head>
 
 <body>
-    <div id="bg"></div>
+    <div id="bg" class="bg">
+        <div id="day" class="bg">
+            <div id="cloud"></div>
+            <div class="rotate-wrap rotate-sun">                
+                <css-doodle id="sun" class="self-rotate">
+                    :doodle {
+                        @grid: 5x1 / 8em;
+                        @shape: circle;
+                        }
+                    @shape: circle;
+                    @nth(1) { @place-cell: center; background: #f2c559; @size: calc(110% / 4 * @index()); animation-name: shine1;};
+                    @nth(2) { @place-cell: center; background: #d69415; @size: calc(110% / 4 * @index()); animation-name: shine2;};
+                    @nth(3) { @place-cell: center; background: #e59a27; @size: calc(100% / 4 * @index());};
+                    @nth(4) { @place-cell: center; background: #f2740b; @size: calc(90% / 4 * @index());};
+                    @nth(5) { @place-cell: center; background: #e36700; @size: calc(90% / 4 * @index());};
+                    opacity: calc(1.1 - 1 / 7 * @index());
+                    z-index: calc(5 - @index());
+                    animation-duration: 3s;
+                    animation-iteration-count: infinite;
+                    animation-timing-function: ease-in;
+                    animation-direction: alternate;
+        
+                    @keyframes shine1 {
+                        0% {
+                            top: @rand(40,60)%; left: @rand(40,60)%;
+                        }
+                        100%{
+                            top: @rand(45,55)%; left: @rand(45,55)%;
+                        }
+                    }
+                    @keyframes shine2 {
+                        0% {
+                            top: @rand(35,65)%; left: @rand(35,65)%;
+                        }
+                        100%{
+                            top: @rand(35,65)%; left: @rand(35,65)%;
+                        }
+                    }
+                </css-doodle>
+            </div>
+            
+        </div>
+        <div id="night" class="bg">
+                <div class="rotate-wrap rotate-moon">
+                        <css-doodle id="moon" class="self-rotate">
+                                :doodle {
+                                    @grid: 10x1 / 8em;
+                                    @shape: circle;
+                                  }
+                                @shape: circle;
+                                @nth(n+1) { @place-cell: @rand(10,90)% @rand(10,90)%; background: #46434C; @size: calc(2% * @rand(1,10)); z-index:0;};
+                                @nth(@size()-1) { @place-cell: center; background: #EAE8FE; @size: 90%; z-index:-1;};
+                                @nth(@size()) { @place-cell: center; background: #EAE8FE; @size: 100%; z-index:-2; opacity:0.9;animation-name: glow};
+                                animation-duration: 3s;
+                                animation-iteration-count: infinite;
+                                animation-timing-function: ease-in;
+                                animation-direction: alternate;
+                    
+                                @keyframes glow {
+                                    0% {
+                                        opacity: 0.9;
+                                    }
+                                    100%{
+                                        opacity: 0.3;
+                                    }
+                                }
+                        </css-doodle>
+                    </div>
+        </div>
+
+    </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-nav fixed-top shadow flipInX wow" id="nav">
         <div class="container">
             <a class="navbar-brand" href="#">
@@ -61,7 +133,19 @@
         </div>
     </nav>
     <div class="container mt-nav" id="content">
-        
+        <div class="row">
+            <div class="col-12 text-center text-white tada wow">
+                <h2>各縣市展覽數量統計</h2>
+            </div>
+            <div class="col-1"><button id="c99" type="button" class="btn btn-info other-city">未提供</button></div>
+            <div class="col-10 text-center obj-fit" id="map">
+                <!-- svg -->
+            </div>
+            <div class="col-1"><button id="c98" type="button" class="btn btn-info other-city">其他</button></div>
+        </div>
+        <div class="row">
+            <div class="col-12"></div>
+        </div>
     </div>
     <div class="container-fluid bg-footer mt-4" id="footer">
         <div class="row">
@@ -81,24 +165,49 @@
     <div class="container-fluid" id="loading">
         <div class="row h-100">
             <div class="col-12 text-center align-self-center"><img src="./svg/hud.svg" alt="" height="300" width="300">
-            <p class="text-white">載入中</p>
+            <p class="text-black">讀取開放資料中</p>
             </div>
         </div>
     </div>
 </body>
 <script>
-    
-    $(document).on("readystatechange",function(){
-        if(document.readyState == "complete"){
-            $("#loading").fadeOut(2000,function(){
+    let data;
+    $.get("api.php",function(res){
+        datas=JSON.parse(res);
+        console.log(datas);
+        Object.entries(datas).forEach(([key,val])=>{
+            $(`.map-city#c${key}, .other-city#c${key}`).each(function(){
+                console.log($(this))
+                $(this).attr({
+                    "data-toggle": "tooltip",
+                    "data-placement": "bottom",
+                    "data-html": "true",
+                    title: `<h4>${val.name}</h4>展覽數量：${val.count}`
+                });
+            })
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+            
+        $("#loading p").text("網頁載入中")
+        $("#loading").fadeOut(2000,function(){
                 $("#nav").fadeIn();
                 $("#content").fadeIn();
                 $("#footer").fadeIn();
                 new WOW().init();
-            }
-            )
-        }
+        })
     })
+    particlesJS.load('night', './json/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+    });
+    $.ajax({
+        url: "./svg/taiwan.svg",
+        success: function(result){
+            console.log($(result).find("svg"));
+            $("#map").append($(result).find("svg"));
+        }
+        
+    })
+    
 </script>
 
 </html>

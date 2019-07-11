@@ -7,34 +7,164 @@
     --color2: #e6837e;
     --color3: #e1e67e;
     --color4: #837ee6;
+    --rotate-time: 10s;
 }
 
 body{
     font-family: var(--font-family-sans-serif), "Microsoft JhengHei";
-    background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url(../svg/clouds.svg);
+}
+
+.bg {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0; 
+  }
+
+#bg{
+    z-index: -99999;  
+}
+
+#bg:after {
+    content: "";
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0; 
+    bottom: 0;
+    right: 0;
+    background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2));
+}
+
+#day{
+    background-color: #08aae1;
+    opacity: 1;
+    animation-name: daynight;
+    animation-duration: var(--rotate-time);
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    /* animation-direction: alternate; */
+    /* display: none; */
+}
+
+#cloud{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image:  url(../svg/cloudsTrans.svg);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    z-index: 1;
+}
+
+.rotate-wrap{
+    animation-duration: var(--rotate-time);
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    position: fixed;
+    top: calc(100% - 5vw);
+    left: calc(50% - 5vw);
+    height: 10vw;
+    width: 10vw;
+}
+
+.rotate-sun{
+    animation-name: move;
+}
+
+.self-rotate {
+    animation-name: rotate;
+    animation-duration: calc(var(--rotate-time) / 2);
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    top: calc(100% - 5vw);
+    left: calc(50% - 5vw);
+    height: 10vw;
+    width: 10vw;
+    z-index: -1;
+}
+
+@keyframes move {
+        0% {
+            transform: rotate(360deg)
+            translate(40vw)
+        }
+        100% {
+            transform: rotate(0deg)
+            translate(40vw)
+        }
+    }
+
+@keyframes move2 {
+        0% {
+            transform: rotate(360deg)
+            translate(40vw)
+        }
+        100% {
+            transform: rotate(0deg)
+            translate(40vw)
+        }
+    }
+
+@keyframes rotate {
+    0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+}
+
+@keyframes daynight {
+    0% {
+        opacity: 1;
+    }
+    40% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    90% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+#night{
+    width:100vw;
+    height: 100vh;
+    background-color: #043564;
+    position: fixed;
+    z-index: -9999;
+    opacity: 0;
+    animation-name: daynight;
+    animation-duration: var(--rotate-time);
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    /* animation-direction: alternate; */
+    animation-delay: calc(var(--rotate-time) / 2);
+    /* display: none; */
+}
+
+.rotate-moon{
+    animation-name: move2;
+    animation-delay: calc(var(--rotate-time) / 2);
 }
 
 .tooltip{
     font-family: var(--font-family-sans-serif), "Microsoft JhengHei";
 }
 
-.bg {
-    content: "";
-    background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url(../svg/clouds.svg);
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    opacity: 0.7;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    position: fixed;
-    z-index: -1;   
-  }
+
 
 .mt-nav{
     margin-top: 5rem;
@@ -79,6 +209,19 @@ body{
 
 #content {
     min-height: calc(100vh - 8rem);
+}
+
+.city-btn{
+    /* width:100%; */
+}
+
+#map svg{
+    max-height: 80vh;
+    max-width: 100%;
+}
+
+.map-city:hover{
+    transform: translate(0,-2px);
 }
 
 .dataTables_wrapper label,
