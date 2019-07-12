@@ -8,6 +8,7 @@
     "infoFiltered": "(從 _MAX_ 項中搜尋)",
     "infoPostFix":  "",
     "search":       "搜尋:",
+    "emptyTable": "無資料",
     "paginate": {
         "first":    "第一頁",
         "previous": "上一頁",

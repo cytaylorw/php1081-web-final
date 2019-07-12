@@ -1,6 +1,7 @@
 @import url("bootstrap.min.css");
 @import url("all.min.css");
 @import url("animate.css");
+@import url("dataTables.bootstrap4.min.css");
 
 :root{
     --color1: #7ee1e6;
@@ -24,6 +25,7 @@ body{
 
 #bg{
     z-index: -99999;  
+    color: black;
 }
 
 #bg:after {
@@ -211,10 +213,6 @@ body{
     min-height: calc(100vh - 8rem);
 }
 
-.city-btn{
-    /* width:100%; */
-}
-
 #map svg{
     max-height: 80vh;
     max-width: 100%;
@@ -230,6 +228,13 @@ body{
 }
 
 @media (max-width:768px){
+    a.other-city .text-wrap{
+        display: none;
+    }
+    a.other-city:after{
+        content: attr(data-short);
+    }
+
     .table-rwd .tr-hide{
         display: none;
     }
@@ -282,4 +287,55 @@ body{
 }
 .bs-tooltip-top.error .arrow:before{
     border-top-color: white;
+}
+
+.py-50{
+    top: 50vh;
+}
+
+.z-5{
+    z-index: 5;
+}
+
+.bg-white-50{
+    background-color: rgba(255, 255, 255, 0.5)
+}
+
+.bg-black-50{
+    background-color: rgba(0, 0, 0, 0.5)
+}
+
+.text-color1{
+    color: var(--color1);
+}
+.text-color2{
+    color: var(--color2);
+}
+.text-color3{
+    color: var(--color3);
+}
+.text-color4{
+    color: var(--color4);
+}
+
+.bg-color1{
+    background-color: var(--color1);
+}
+.bg-color2{
+    background-color: var(--color2);
+}
+.bg-color3{
+    background-color: var(--color3);
+}
+.bg-color4{
+    background-color: var(--color4);
+}
+
+.alert-link.no-decoration.text-color2:hover{
+    text-decoration: none;
+    color: var(--color2);
+}
+
+#result{
+    display: none;
 }

@@ -209,6 +209,8 @@
     $json = json_decode($result,true);
     // print_r($json);
     foreach($json as $jKey => $jValue){
+        // echo $jValue["showInfo"][0]["onSales"]."<br>";
+        // 依縣市分類
         $city="";
         if(empty($jValue["showInfo"][0]["location"])){
             $city=99;
@@ -239,6 +241,29 @@
             $data[$city]["shows"][$jValue["UID"]][$name]=$tmp;            
         }
         // print_r($data[$city]["shows"][$jValue["UID"]]);
+        // 增加演出月份欄位
+        $data[$city]["shows"][$jValue["UID"]]["months"]=[];
+        // echo $jValue["startDate"]." - ".$jValue["endDate"]."<br>";
+        $start=explode("/",$jValue["startDate"]);
+        $end=explode("/",$jValue["endDate"]);
+        if($start[0] < $end[0]){
+            for($i=(int)$start[0];$i<=(int)$end[0];$i++){
+                if($i<$end[0]){
+                    for($j=(int)$start[1];$j<=12;$j++){
+                        $data[$city]["shows"][$jValue["UID"]]["months"][$i][]=$j;
+                    }
+                }else{
+                    for($j=1;$j<=(int)$end[1];$j++){
+                        $data[$city]["shows"][$jValue["UID"]]["months"][$i][]=$j;
+                    }
+                }
+            }
+        }else{
+            for($j=(int)$start[1];$j<=(int)$end[1];$j++){
+                $data[$city]["shows"][$jValue["UID"]]["months"][$start[0]][]=$j;
+            }
+        }
+
     }
     // print_r($data);
     /* foreach($data as $k => $d){
@@ -247,5 +272,7 @@
         }
     } */
     // print_r($data["其他"]);
+    // echo count($json);
     echo json_encode($data);
+    
 ?>

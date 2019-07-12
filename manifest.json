@@ -6,22 +6,22 @@
     "background_color": "#e6837e",
     "icons": [
         {
-            "src": "../icon/folder512.png",
+            "src": "./icon/folder512.png",
             "sizes": "512x512",
             "type": "image/png"
         },
         {
-            "src": "../icon/folder256.png",
+            "src": "./icon/folder256.png",
             "sizes": "256x256",
             "type": "image/png"
         },
         {
-            "src": "../icon/folder192.png",
+            "src": "./icon/folder192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "../icon/folder128.png",
+            "src": "./icon/folder128.png",
             "sizes": "128x128",
             "type": "image/png"
         }

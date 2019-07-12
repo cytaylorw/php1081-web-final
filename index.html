@@ -24,6 +24,8 @@
     <script src="./js/wow.min.js"></script>
     <script src="./js/css-doodle.min.js"></script>
     <script src="./js/particles.min.js"></script>
+    <script src="./js/jquery.dataTables.min.js"></script>
+    <script src="./js/dataTables.bootstrap4.min.js"></script>
     <!-- PWD -->
     <link rel="manifest" href="./manifest.json">
 </head>
@@ -44,7 +46,7 @@
                     @nth(3) { @place-cell: center; background: #e59a27; @size: calc(100% / 4 * @index());};
                     @nth(4) { @place-cell: center; background: #f2740b; @size: calc(90% / 4 * @index());};
                     @nth(5) { @place-cell: center; background: #e36700; @size: calc(90% / 4 * @index());};
-                    opacity: calc(1.1 - 1 / 7 * @index());
+                    opacity: calc(1.2 - 1 / 7 * @index());
                     z-index: calc(5 - @index());
                     animation-duration: 3s;
                     animation-iteration-count: infinite;
@@ -56,7 +58,7 @@
                             top: @rand(40,60)%; left: @rand(40,60)%;
                         }
                         100%{
-                            top: @rand(45,55)%; left: @rand(45,55)%;
+                            top: @rand(40,60)%; left: @rand(40,60)%;
                         }
                     }
                     @keyframes shine2 {
@@ -133,18 +135,98 @@
         </div>
     </nav>
     <div class="container mt-nav" id="content">
-        <div class="row">
+        <div class="row map-wrap">
             <div class="col-12 text-center text-white tada wow">
-                <h2>各縣市展覽數量統計</h2>
+                <h2>展覽數量統計(共<span id="total"></span>筆)</h2>
             </div>
-            <div class="col-1"><button id="c99" type="button" class="btn btn-info other-city">未提供</button></div>
-            <div class="col-10 text-center obj-fit" id="map">
+            <div class="container position-absolute z-5">
+                <div class="col-12">
+                    <div class="float-left">
+                            <a id="c99" href="#" class="btn btn-info active other-city" role="button" aria-pressed="true">
+                                <span class="text-wrap">未提供</span></a>
+                    </div>
+                    <div class="float-right">
+                            <a id="c98" href="#" class="btn btn-info active other-city" role="button" aria-pressed="true">
+                                <span class="text-wrap">其他</span></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 text-center obj-fit" id="map">
                 <!-- svg -->
             </div>
-            <div class="col-1"><button id="c98" type="button" class="btn btn-info other-city">其他</button></div>
+            
         </div>
-        <div class="row">
-            <div class="col-12"></div>
+        <div class="row justify-content-center">
+            <div class="col-2 text-center"><a href="#citySelect" class="alert-link text-color2 no-decoration"><h4>找展覽<br><i class="fas fa-arrow-down"></i></h4></a></div>
+        </div>
+        <div class="row my-2 search-options">
+            <div class="col-12 col-lg-3">
+                    <div class="form-group bg-black-50 text-white rounded">
+                            <label for="citySelect" class="w-100 text-center pt-1">縣市</label>
+                            <select class="form-control" id="citySelect"  data-next="yearSelect">
+                            </select>
+                          </div>
+            </div>
+            <div class="col-12 col-lg-3">
+                    <div class="form-group bg-black-50 text-white rounded">
+                            <label for="yearSelect" class="w-100 text-center pt-1">年</label>
+                            <select class="form-control" id="yearSelect"  data-next="monthSelect">
+                            </select>
+                          </div>
+            </div>
+            <div class="col-12 col-lg-3">
+                    <div class="form-group bg-black-50 text-white rounded">
+                            <label for="monthSelect" class="w-100 text-center pt-1">月</label>
+                            <select class="form-control" id="monthSelect" data-next="saleSelect">
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                              <option value="11">11</option>
+                              <option value="12">12</option>
+                            </select>
+                          </div>
+            </div>
+            <div class="col-12 col-lg-3">
+                    <div class="form-group bg-black-50 text-white rounded">
+                            <label for="saleSelect" class="w-100 text-center pt-1">是否售票</label>
+                            <select class="form-control" id="saleSelect" data-next="confirm">
+                              <option value="0" selected>否(免費參觀或未提供)</option>
+                              <option value="1">是</option>
+                            </select>
+                          </div>
+            </div>
+            <div class="col-12 text-center">
+                    <button id="confirm" type="button" class="btn btn-danger bg-color2">確定</button>
+            </div>
+        </div>
+        <div class="row my-4" id="result">
+            <div class="col-12 text-center text-dark bg-white-50 rounded tada wow">
+                <h2>搜尋結果</h2>
+            </div>
+            <div class="col-12">
+                <table class="table table-light table-striped table-hover table-rwd" id="showTable">
+                    <thead class="thead-dark tr-hide">
+                        <tr>
+                            <th>活動名稱</th>
+                            <th>演出單位</th>
+                            <th>起始日期</th>
+                            <th>結束日期</th>
+                            <th>介紹</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div class="container-fluid bg-footer mt-4" id="footer">
@@ -169,31 +251,63 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+            </div>
+            </div>
+        </div>
+        </div>
 </body>
 <script>
     let data;
+    let citySelect = $("#citySelect");
+    let monthSelect = $("#monthSelect");
+    let yearSelect = $("#yearSelect");
+    let saleSelect = $("#saleSelect");
+    let result = {};
+    let table;
     $.get("api.php",function(res){
         datas=JSON.parse(res);
         console.log(datas);
+        let total=0;
         Object.entries(datas).forEach(([key,val])=>{
+            // 地圖
             $(`.map-city#c${key}, .other-city#c${key}`).each(function(){
-                console.log($(this))
+                // console.log($(this));
+                total+=val.count;
                 $(this).attr({
                     "data-toggle": "tooltip",
                     "data-placement": "bottom",
                     "data-html": "true",
+                    "data-code": key,
                     title: `<h4>${val.name}</h4>展覽數量：${val.count}`
                 });
+                if($(this).attr("role"))$(this).attr("data-short",val.name[0]);
             })
+            // 選單
+            citySelect.append(`<option value="${key}">${val.name}(${val.count})</option>`);
         });
-        $('[data-toggle="tooltip"]').tooltip();
+        $("#total").text(total);
+        
             
         $("#loading p").text("網頁載入中")
-        $("#loading").fadeOut(2000,function(){
+        $("#loading").fadeOut(1000,function(){
                 $("#nav").fadeIn();
                 $("#content").fadeIn();
                 $("#footer").fadeIn();
                 new WOW().init();
+                $('[data-toggle="tooltip"]').tooltip();
         })
     })
     particlesJS.load('night', './json/particlesjs-config.json', function() {
@@ -202,12 +316,155 @@
     $.ajax({
         url: "./svg/taiwan.svg",
         success: function(result){
-            console.log($(result).find("svg"));
+            // console.log($(result).find("svg"));
             $("#map").append($(result).find("svg"));
         }
         
     })
+
+    let d =new Date();
+    let year=d.getFullYear();
+    for(let i=year;i<=year+1;i++){
+        yearSelect.append(`<option value="${i}">${i}</option>`);
+    }
+    yearSelect.find("option[value="+year+"]").prop("selected",true);
+    monthSelect.find("option[value="+(d.getMonth()+1)+"]").prop("selected",true);
+
+
+    $(".map-wrap").on("click",".map-city, .other-city",function(){
+        console.log(citySelect.offset().top);
+        citySelect.find("option[value="+$(this).data("code")+"]").prop("selected",true);
+        $("html, body").animate({
+            scrollTop: citySelect.offset().top-100
+        },500)
+    });
     
+
+    $(".search-options select").on("change",function(){
+        $("html, body").animate({
+            scrollTop: $("#"+$(this).data("next")).offset().top-100
+        },500)
+    });
+
+    $("#confirm").on("click",function(){
+        if(table) table.destroy();
+        $("#showTable tbody").empty();
+        result = [];
+        result.name = datas[citySelect.val()].name;
+        result.shows = {};
+
+        Object.entries(datas[citySelect.val()].shows).forEach(([key,val])=>{
+            console.log(val.months[yearSelect.val()]);
+            let sale = (val.onSales == "Y")?"1":"0";
+            if((sale == saleSelect.val()) &&val.months[yearSelect.val()].includes(parseInt(monthSelect.val()))){
+                result.shows[key]=val;
+                $("#showTable tbody").append(/*html*/`
+                    <tr>
+                        <td data-th="活動名稱">${val.title}</td>
+                        <td data-th="演出單位">${val.showUnit}</td>
+                        <td data-th="起始日期">${val.startDate}</td>
+                        <td data-th="結束日期">${val.endDate}</td>
+                        <td data-th="介紹" >
+                            <button type="button" class="btn btn-link btn-more" data-id="${key}">
+                                <i class="fas fa-eye flash animated slower infinite"></i> 詳細資料
+                            </button>
+                        </td>
+                    </tr>
+                `)
+            } 
+        });
+        console.log(result);
+        table=$("#showTable").DataTable({
+            "language":{
+                "url": "./json/datatables-chinese-traditional.json"
+            },
+            "columns": [
+                    {"width": "43%"},
+                    {"width": "23%"},
+                    {"width": "9%"},
+                    {"width": "9%"},
+                    {"width": "16%"},
+            ],
+            "columnDefs":[
+                {
+                    "targets": 4,
+                    "orderable": false,
+                    "searchable": false
+                }
+            ]
+        });
+
+        $("#result").show();
+        $("html, body").animate({
+            scrollTop: $("#result").offset().top-60
+        },500);
+    });
+
+    $("#showTable").on("click",".btn-more",function(){
+        let show = result.shows[$(this).data("id")];
+        console.log(show);
+        $("#modal .modal-title").text(show.title);
+        $("#modal .modal-body").empty();
+        if(show.imageUrl){
+            $("#modal .modal-body").append(/*html*/`
+                <img src="${show.imageUrl}" class="w-100 my-3">
+            `);
+        };
+
+        let date = (show.startDate == show.endDate)?show.startDate:`${show.startDate} 至 ${show.endDate}`;
+        $("#modal .modal-body").append(/*html*/`
+            <h6>展覽期間</h6>
+            <div class="container-fluid">
+                <p>${date}</p>
+            </div>
+        `);
+
+        $("#modal .modal-body").append(/*html*/`
+            <h6>售票資訊</h6>
+            <div class="container-fluid sale-info">
+
+            </div>
+        `);
+        if(show.onSales == "Y"){
+            if(show.price){
+                let prices = "";
+                let type = show.price.split(";");
+                type.forEach(el=>{
+                    let price = el.split("+");
+                    prices += (price[1])?`<li>${price[0]}：${price[1]}</li>`:`<li>${price[0]}</li>`;
+                });
+                prices=`<ul>${prices}</url>`;
+                $("#modal .modal-body .sale-info").append(prices);
+            }else{
+                $("#modal .modal-body .sale-info").append(/*html*/`
+                    <p>未提供售價，請洽詢展覽單位。</p>
+                `);
+            }
+        }else if(show.onSales == "N"){
+            $("#modal .modal-body .sale-info").append(/*html*/`
+                <p>免費參觀</p>
+            `);
+        }else{
+            $("#modal .modal-body .sale-info").append(/*html*/`
+                <p>未提供售票資訊，請洽詢展覽單位。</p>
+            `);
+
+        }
+
+        $("#modal .modal-body").append(/*html*/`
+            <h6>展覽單位</h6>
+            <div class="container-fluid unit-info">
+
+            </div>
+        `);
+        $("#modal .modal-body").append(/*html*/`
+            <h6>展覽地點</h6>
+        `);
+        $("#modal .modal-body").append(/*html*/`
+            <h6>展覽簡介</h6>
+        `);
+        $("#modal").modal("show");
+    })
 </script>
 
 </html>
