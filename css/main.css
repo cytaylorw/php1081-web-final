@@ -8,6 +8,10 @@
     --color2: #e6837e;
     --color3: #e1e67e;
     --color4: #837ee6;
+    --color1a: rgba(126, 225, 230, 0.5);
+    --color2a: rgba(230, 131, 126, 0.5);
+    --color3a: rgba(225, 230, 126, 0.5);
+    --color4a: rgba(131, 126, 230, 0.5);
     --rotate-time: 10s;
 }
 
@@ -28,7 +32,7 @@ body{
     color: black;
 }
 
-#bg:after {
+/* #bg:after {
     content: "";
     position: fixed;
     width: 100vw;
@@ -38,7 +42,7 @@ body{
     bottom: 0;
     right: 0;
     background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2));
-}
+} */
 
 #day{
     background-color: #08aae1;
@@ -47,8 +51,7 @@ body{
     animation-duration: var(--rotate-time);
     animation-iteration-count: infinite;
     animation-timing-function: linear;
-    /* animation-direction: alternate; */
-    /* display: none; */
+
 }
 
 #cloud{
@@ -152,7 +155,6 @@ body{
     animation-duration: var(--rotate-time);
     animation-iteration-count: infinite;
     animation-timing-function: linear;
-    /* animation-direction: alternate; */
     animation-delay: calc(var(--rotate-time) / 2);
     /* display: none; */
 }
@@ -166,10 +168,21 @@ body{
     font-family: var(--font-family-sans-serif), "Microsoft JhengHei";
 }
 
+.max-vh-25{
+    max-height: 25vh;
+}
 
+.break-word{
+    word-wrap: break-word;
+    word-break: break-all;
+}
 
 .mt-nav{
     margin-top: 5rem;
+}
+
+.pt-nav{
+    padding-top: 5rem;
 }
 
 .obj-fit{
@@ -184,6 +197,11 @@ body{
 
 .fs150{
     font-size: 1.5rem;
+}
+
+.mx-6{
+    margin-left: 6rem;
+    margin-right: 6rem;
 }
 
 @media (min-width:768px){
@@ -212,6 +230,7 @@ body{
 #content {
     min-height: calc(100vh - 8rem);
 }
+
 
 #map svg{
     max-height: 80vh;
@@ -255,7 +274,7 @@ body{
         border: 1px solid black;
     }
 
-    #landTable_wrapper .pagination{
+    #showTable_wrapper .pagination{
         justify-content: center;
         margin-top: 1rem;
     }
@@ -282,11 +301,11 @@ body{
     overflow-y: auto;
 }
 
-.bs-tooltip-bottom.error .arrow:before{
-    border-bottom-color: white;
+.bs-tooltip-bottom.city .arrow:before{
+    border-bottom-color: var(--color4);
 }
-.bs-tooltip-top.error .arrow:before{
-    border-top-color: white;
+.bs-tooltip-top.city .arrow:before{
+    border-top-color: var(--color4);
 }
 
 .py-50{
@@ -331,11 +350,40 @@ body{
     background-color: var(--color4);
 }
 
-.alert-link.no-decoration.text-color2:hover{
+.bg-color1a{
+    background-color: var(--color1a);
+}
+.bg-color2a{
+    background-color: var(--color2a);
+}
+.bg-color3a{
+    background-color: var(--color3a);
+}
+.bg-color4a{
+    background-color: var(--color4a);
+}
+
+.no-decoration{
     text-decoration: none;
-    color: var(--color2);
+}
+.no-decoration:hover{
+    text-decoration: none;
+}
+
+.text-100{
+    font-size: 100%;
 }
 
 #result{
     display: none;
+}
+
+.arrow-down {
+    clip-path: polygon(0 45%, 20% 45%, 20% 0, 80% 0, 80% 45%, 100% 45%, 50% 100%);
+}
+
+.bg-paper{
+    background-color: 	#eeeeee;
+    background-image: linear-gradient(to right, rgba(255,255,238,0.4), rgba(238,238,221, 0.1) 11%, rgba(238,238,255,0.5) 35%, rgba(238,238,221, 0.1) 65%);
+    box-shadow: inset 0 0 75px rgba(238,238,255,0.3), inset 0 0 20px rgba(238,238,255,0.4), inset 0 0 30px rgba(238,238,221,0.8);
 }
