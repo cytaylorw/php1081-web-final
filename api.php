@@ -238,6 +238,13 @@
                 }
             }
             $name=$dValue[count($dValue)-1];
+            
+            if($name == "descriptionFilterHtml" || $name == "discountInfo") {
+                $tmp=str_replace("\r","<br>",str_replace("\\r\\n","<br>",str_replace("\r\n","<br>",$tmp)));
+                if(!strpos($tmp,"<br />") && strpos($tmp,"br /")){
+                    $tmp=str_replace("br /","<br>",$tmp);
+                }
+            }
             $data[$city]["shows"][$jValue["UID"]][$name]=$tmp;            
         }
         // print_r($data[$city]["shows"][$jValue["UID"]]);

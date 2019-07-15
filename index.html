@@ -431,11 +431,17 @@
             `);
         };
 
-        let date = (show.startDate == show.endDate)?show.startDate:`${show.startDate} 至 ${show.endDate}`;
+        let date = (show.startDate == show.endDate)?
+            /*html*/`<li class="list-group-item flex-fill">${show.startDate}</li>`:
+            /*html*/`
+                <li class="list-group-item flex-fill text-center">${show.startDate}</li>
+                <li class="list-group-item">至</li>
+                <li class="list-group-item flex-fill text-center">${show.endDate}</li>
+            `;
         $("#modal .modal-body").append(/*html*/`
             <h6 class="font-italic">展覽期間</h6>
             <div class="container-fluid">
-                <p>${date}</p>
+                <ul class="list-group list-group-horizontal-sm mb-2 flex-wrap">${date}</ul>
             </div>
         `);
 
@@ -448,7 +454,7 @@
                     let price = el.split("+");
                     if(price[1] && !isNaN(price[1])){
                         prices += /*html*/`<li class="list-group-item flex-fill">${price[0]}
-                            <span class="badge badge-primary badge-pill">${price[1]}</span>
+                            <span class="badge badge-info badge-pill">${price[1]}元</span>
                         </li>`;
                     }else{
                         prices += (price[1])?
@@ -464,13 +470,27 @@
         }else{
             prices += /*html*/`<li class="list-group-item flex-fill">未提供售票資訊，請洽詢展覽單位</li>`;
         }
-        prices = /*html*/`<ul class="list-group list-group-horizontal-sm mb-2 flex-wrap">${prices}</url>`;
-            $("#modal .modal-body").append(/*html*/`
-                <h6 class="font-italic">售票資訊${sale}</h6>
-                <div class="container-fluid sale-info">
-                        ${prices}
-                </div>
-            `);
+        prices = /*html*/`<ul class="list-group list-group-horizontal-sm mb-2 flex-wrap">${prices}</ul>`;
+        let discount = (show.discountInfo)?/*html*/`
+            <div class="row justify-content-center">
+                    <button type="button" class="btn btn-warning" data-trigger="focus" data-toggle="popover" data-placement="bottom" 
+                    data-content="${show.discountInfo}">
+                        折扣資訊
+                    </button>
+
+            </div>
+        `:"";
+        $("#modal .modal-body").append(/*html*/`
+            <h6 class="font-italic">售票資訊${sale}</h6>
+            <div class="container-fluid sale-info">
+                ${prices}
+                ${discount}
+            </div>
+        `);
+        if(discount) $('[data-toggle="popover"]').popover({
+            html: true
+        });
+
         let units = "";
         if(show.masterUnit[0]) units +=  /*html*/`<li class="list-group-item flex-fill">主辦單位：${show.masterUnit[0]}</li>`;
         if(show.showUnit && show.showUnit != show.masterUnit[0] 
@@ -478,7 +498,7 @@
             units +=  /*html*/`<li class="list-group-item flex-fill">演出單位：${show.showUnit}</li>`;
         }
         if(units){
-            units = /*html*/`<ul class="list-group list-group-horizontal-sm mb-2 flex-wrap">${units}</url>`;
+            units = /*html*/`<ul class="list-group list-group-horizontal-sm mb-2 flex-wrap">${units}</ul>`;
             $("#modal .modal-body").append(/*html*/`
                 <h6 class="font-italic">展覽單位</h6>
                 <div class="container-fluid unit-info">
@@ -490,7 +510,7 @@
         if(show.locationName) location +=  /*html*/`<li class="list-group-item flex-fill">名稱：${show.locationName}</li>`;
         if(show.location) location +=  /*html*/`<li class="list-group-item flex-fill">地址：${show.location}</li>`;
         if(location){
-            location = /*html*/`<ul class="list-group list-group-horizontal-sm mb-2 flex-wrap">${location}</url>`;
+            location = /*html*/`<ul class="list-group list-group-horizontal-sm mb-2 flex-wrap">${location}</ul>`;
             $("#modal .modal-body").append(/*html*/`
                 <h6 class="font-italic">展覽地點</h6>
                 <div class="container-fluid unit-info">
@@ -499,7 +519,7 @@
             `);
         }
 
-        let link = (show.sourceWebPromote)?`<a target="_blank" href="${show.sourceWebPromote}" class="badge badge-info text-100 mx-2">活動網址</a>`:"";
+        let link = (show.sourceWebPromote)?`<a target="_blank" href="${show.sourceWebPromote}" class="badge badge-success text-100 mx-2">活動網址</a>`:"";
         let intro = (show.descriptionFilterHtml)?/*html*/`
             <div class="card w-100">
                 <div class="card-body">
