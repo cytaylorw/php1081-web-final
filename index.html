@@ -26,6 +26,7 @@
     <script src="./js/particles.min.js"></script>
     <script src="./js/jquery.dataTables.min.js"></script>
     <script src="./js/dataTables.bootstrap4.min.js"></script>
+    <script src="./js/Chart.min.js"></script>
     <!-- PWD -->
     <link rel="manifest" href="./manifest.json">
 </head>
@@ -116,7 +117,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#mapWrap">
+                        <a class="nav-link active" href="#stastiticWrap">
                             <i class="fas fa-poll"></i> <span class="d-none d-sm-inline">統計</span>
                         </a>
                     </li>
@@ -135,25 +136,31 @@
         </div>
     </nav>
     <div class="container" id="content">
-        <div class="row map-wrap pt-nav" id="mapWrap">
-            <div class="col-12 text-center text-dark tada wow" id="mapTitle">
-                <h2 class="mx-6 bg-white-50 rounded">展覽統計(共<span id="total"></span>筆)</h2>
-            </div>
-            <div class="container position-absolute z-5">
-                <div class="col-12">
-                    <div class="float-left">
-                            <a id="c99" href="#" class="btn btn-info active other-city" role="button" aria-pressed="true">
-                                <span class="text-wrap">未提供</span></a>
+        <div class="row pt-nav" id="stastiticWrap">
+            <div class="row map-wrap w-100 d-none d-md-flex">
+                <div class="col-12 text-center text-dark tada wow" id="mapTitle">
+                    <h2 class="mx-6 bg-white-50 rounded">展覽統計(共<span id="total"></span>筆)</h2>
+                </div>
+                <div class="container position-absolute z-5">
+                    <div class="col-12">
+                        <div class="float-left">
+                                <a id="c99" href="#" class="btn btn-info active other-city" role="button" aria-pressed="true">
+                                    <span class="text-wrap">未提供</span></a>
+                        </div>
+                        <div class="float-right">
+                                <a id="c98" href="#" class="btn btn-info active other-city" role="button" aria-pressed="true">
+                                    <span class="text-wrap px-2">其他</span></a>
+                        </div>
                     </div>
-                    <div class="float-right">
-                            <a id="c98" href="#" class="btn btn-info active other-city" role="button" aria-pressed="true">
-                                <span class="text-wrap px-2">其他</span></a>
-                    </div>
+                </div>                
+                <div class="col-12 text-center" id="map">
+                    <!-- svg -->
                 </div>
             </div>
-            
-            <div class="col-12 text-center obj-fit" id="map">
-                <!-- svg -->
+            <div class="row pie-wrap w-100 mb-5 d-flex d-md-none">
+                <div class="col-12">
+                        <canvas class="w-100" id="chart"></canvas>
+                </div>
             </div>
             
         </div>
@@ -286,10 +293,40 @@
     let saleSelect = $("#saleSelect");
     let result = {};
     let table;
+    let chart = $("#chart");
+    let myChart;
+
     $.get("api.php",function(res){
         datas=JSON.parse(res);
         console.log(datas);
         let total=0;
+        let chartGroup = {
+            label: [
+                "北基宜花金馬",
+                "桃竹苗",
+                "中彰投",
+                "雲嘉南",
+                "高屏澎東",
+                "其他",
+            ],
+            city: [
+                ["1","2","3","18","19","21","22"],
+                ["4","5","6","7"],
+                ["8","9","10"],
+                ["11","12","13","14"],
+                ["15","16","17","20"],
+                ["98","99"]
+            ],
+            count: [0,0,0,0,0,0],
+            color: [
+                `hsl(0, 50%, 50%)`,
+                `hsl(60, 50%, 50%)`,
+                `hsl(120, 50%, 50%)`,
+                `hsl(180, 50%, 50%)`,
+                `hsl(240, 50%, 50%)`,
+                `hsl(300, 50%, 50%)`],
+        }
+
         Object.entries(datas).forEach(([key,val])=>{
             // 地圖
             $(`.map-city#c${key}, .other-city#c${key}`).each(function(){
@@ -306,9 +343,49 @@
             })
             // 選單
             citySelect.append(`<option value="${key}">${val.name}(${val.count})</option>`);
+            // 圖
+            console.log(chartGroup.city.length);
+            for(let i=0;i<chartGroup.city.length;i++){
+                if(chartGroup.city[i].includes(key)){
+                    chartGroup.count[i]+=val.count;
+                    break;
+                }
+            }
         });
         $("#total").text(total);
-        
+
+        Chart.defaults.global.defaultFontColor = 'balck';
+        Chart.defaults.global.defaultFontFamily = "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif, 'Microsoft JhengHei'";
+        Chart.defaults.global.defaultFontSize = 16;
+        chart.height= 700;
+        myChart = new Chart(chart,{
+            type: "bar",
+            data: {
+                labels: chartGroup.label,
+                datasets:[
+                    {
+                        data: chartGroup.count,
+                        backgroundColor: chartGroup.color
+                    }
+                ]
+            },
+            options: {
+                title: {
+                    text: `展覽統計(共${total})`,
+                    display: true,
+                    fontSize: 24,
+                },
+                legend: {
+                    display: false,
+                    position: "top",
+                },
+                scales: {
+                    xAxes: [{
+                        barThickness: "flex"
+                    }]
+                }
+            }
+        });
             
         $("#loading p").text("網頁載入中")
         $("#loading").fadeOut(1000,function(){

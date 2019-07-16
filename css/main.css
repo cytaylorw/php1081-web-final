@@ -172,6 +172,14 @@ body{
     max-height: 25vh;
 }
 
+.max-vh-70{
+    max-height: 70vh;
+}
+
+.h-80v{
+    height: 80vh;
+}
+
 .break-word{
     word-wrap: break-word;
     word-break: break-all;
@@ -240,6 +248,11 @@ body{
 .map-city:hover{
     transform: translate(0,-2px);
 }
+
+/* #chart {
+    width: 90vw!important;
+    height: 90vw!important;
+} */
 
 .dataTables_wrapper label,
 .dataTables_info{
