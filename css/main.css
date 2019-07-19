@@ -306,7 +306,7 @@ body{
     }
 
     #showTable_filter input{
-        width: 100%;
+        width: 65vw;
     }
 }
 
