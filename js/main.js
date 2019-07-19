@@ -11,7 +11,8 @@ let chartConfig;
 let gMap;
 let gMarker;
 
-$.get("api.php",function(res){
+let url = (true)?"https://api.cytaylorw.idv.tw/github/final/":"";
+$.get(url+"api.php",function(res){
     datas=JSON.parse(res);
     // console.log(datas);
     let total=0;
