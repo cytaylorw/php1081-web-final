@@ -11,4 +11,5 @@
 - 使用套件：Bootstrap、fontawesome、Animate.css、wow.js、Chart.js、css-doodle、particles.js、dataTables
 - 設定FAVICON、Metadata、manifest.json、Google Analytic、service worker、Google Map JavaScript API(無key)
 - 響應式網頁設計 & 漸進式網頁應用程式
-- 使用PHP將資料重構，刪除不需要的欄位，還有簡單的分類和統計 (Access-Control-Allow-Origin)
+- 使用PHP將資料重構，刪除不需要的欄位，還有簡單的分類和統計 
+- 前台使用GitHub Pages，後台PHP另外架設(Access-Control-Allow-Origin)

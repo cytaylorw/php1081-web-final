@@ -1,6 +1,7 @@
 {
     "name": "政府開放資料 - 展覽資訊",
     "short_name": "台灣展覽資訊",
+    "lang": "zh-TW",
     "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#e6837e",

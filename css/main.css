@@ -275,7 +275,10 @@ body{
 
     .table-rwd td{
         display: block;
+        max-width: 80vw;
         border: none;
+        word-wrap: break-word;
+        word-break: break-all;
     }
 
     .table-rwd tr{
@@ -286,6 +289,7 @@ body{
     #showTable_wrapper .pagination{
         justify-content: center;
         margin-top: 1rem;
+        flex-wrap: wrap;
     }
 }
 

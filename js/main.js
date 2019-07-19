@@ -224,7 +224,7 @@ $("#confirm").on("click",function(){
                 "orderable": false,
                 "searchable": false
             }
-        ]
+        ],
     });
 
     $("#result").addClass("d-flex");
