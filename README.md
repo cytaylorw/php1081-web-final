@@ -8,7 +8,7 @@
 
 ## 成品描述
 - 網站使用文化局提供的[展覽資料](https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6)
-- 使用套件：Bootstrap、fontawesome、Animate.css、wow.js、Chart.js、css-doodle、particles.js、dataTables
+- 使用套件：Bootstrap、fontawesome、Animate.css、wow.js、Chart.js、css-doodle、particles.js、dataTables、SweetAlert2
 - 設定FAVICON、Metadata、manifest.json、Google Analytic、service worker、Google Map JavaScript API(無key)
 - 響應式網頁設計 & 漸進式網頁應用程式
 - 使用PHP將資料重構，刪除不需要的欄位，還有簡單的分類和統計 

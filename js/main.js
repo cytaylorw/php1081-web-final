@@ -1,4 +1,4 @@
-let data;
+let datas;
 let citySelect = $("#citySelect");
 let monthSelect = $("#monthSelect");
 let yearSelect = $("#yearSelect");
@@ -115,7 +115,7 @@ $.get(url+"api.php",function(res){
         }
     };
         
-    $("#loading p").text("網頁載入中")
+    $("#loadingText").text("網頁載入中");
     $("#loading").fadeOut(1000,function(){
             $("#nav").fadeIn();
             $("#content").fadeIn(function(){
@@ -129,10 +129,22 @@ $.get(url+"api.php",function(res){
                 template: '<div class="tooltip city" role="tooltip"><div class="arrow"></div><div class="tooltip-inner bg-color4"></div></div>'
             });
     })
-})
+}).always(function(){
+    if(datas ==  undefined) {
+        Swal.fire({
+            type: "error",
+            title: "資料載入失敗，請洽管理人員。",
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+        })
+    }
+});
+
 particlesJS.load('night', './json/particlesjs-config.json', function() {
         // console.log('callback - particles.js config loaded');
 });
+
 $.ajax({
     url: "./svg/taiwan.svg",
     success: function(result){

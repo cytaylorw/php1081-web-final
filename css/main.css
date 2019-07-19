@@ -417,3 +417,7 @@ body{
 #gMap{
     min-height: 300px;
 }
+
+.swal2-container.swal2-shown {
+    z-index: 100000;
+}
