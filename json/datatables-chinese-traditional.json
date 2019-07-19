@@ -7,7 +7,7 @@
     "infoEmpty":    "第 0 至 0 項，共 0 項",
     "infoFiltered": "(從 _MAX_ 項中搜尋)",
     "infoPostFix":  "",
-    "search":       "搜尋:",
+    "search":       "搜尋列表:",
     "emptyTable": "無資料，請變更條件再搜尋。",
     "paginate": {
         "first":    "第一頁",

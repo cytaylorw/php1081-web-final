@@ -290,6 +290,23 @@ body{
         justify-content: center;
         margin-top: 1rem;
         flex-wrap: wrap;
+        font-size: 0.8rem;
+    }
+
+    #showTable_wrapper .pagination>*{
+        flex-grow: 1;
+    }
+
+    #showTable_wrapper .page-link {
+        padding: .5rem .5rem;
+    }
+
+    #showTable_length, #showTable_filter{
+        text-align: left;
+    }
+
+    #showTable_filter input{
+        width: 100%;
     }
 }
 
